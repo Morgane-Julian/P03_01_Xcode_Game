@@ -13,8 +13,13 @@ class Player {
     var deadChampion: Int = 0 // Stock the number of dead champions of the team
     var name : String
     
-    init(pName: String) {
-        self.name = pName
+    
+    init(name: String) {
+        self.name = name
     }
-}
+
+   
+    }
+    
+
 

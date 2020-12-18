@@ -7,10 +7,10 @@
 
 import Foundation
 
-enum Category: String {
-    case heal = "Heal"
-    case tank = "Tank"
-    case DPS = "Dps"
+enum Role: Int {
+    case heal = 1
+    case tank = 2
+    case DPS = 3
     
 }
 
@@ -24,20 +24,20 @@ class Champion: Equatable {
     var name: String
     var life: Int
     var weapon: Weapon
-    var category: Category
+    var category: Role
     var index: Int
     
-    init(pIndex: Int, pName: String, pLife: Int, category: Category, weapon: Weapon) {
-        self.name = pName
-        self.life = pLife
+    init(index: Int, name: String, life: Int, category: Role, weapon: Weapon) {
+        self.name = name
+        self.life = life
         self.category = category
         self.weapon = weapon
-        self.index = pIndex
+        self.index = index
     }
     
     // Copie l'original pour le placer dans le tableau de championSelect du joueur
     func copy() -> Champion {
-        return Champion(pIndex: self.index, pName: self.name, pLife: self.life, category: self.category, weapon: self.weapon)
+        return Champion(index: self.index, name: self.name, life: self.life, category: self.category, weapon: self.weapon)
     }
     
     
@@ -49,8 +49,5 @@ class Champion: Equatable {
             return true
         }
     }
-    
+
 }
-
-
-

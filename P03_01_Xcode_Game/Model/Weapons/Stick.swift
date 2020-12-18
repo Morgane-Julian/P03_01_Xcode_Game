@@ -7,6 +7,7 @@
 
 import Foundation
 class Stick : Weapon {
+    
     init() {
         super.init(weaponName: "stick", weaponDamage: 30, heal: 30)
     }

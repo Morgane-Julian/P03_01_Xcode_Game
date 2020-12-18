@@ -8,7 +8,6 @@
 import Foundation
 
 var game = Game()
-
 print("Welcome to Sword Conquest! ⚔️\n")
 
 game.player1.name = game.hello(player: game.player1)
@@ -30,8 +29,10 @@ print("*************************************************************************
 print("Index----------------Name----------------Category----------------Life Points----------------Weapon----------------Damage")
 print("*************************************************************************************************************************")
 
-game.printChampionList(pChampions: game.championList)
-game.promptChampions(game.player1)
+game.printChampionList(champions: game.championList)
+game.promptChampion(game.player1, category: .tank)
+game.promptChampion(game.player1, category: .heal)
+game.promptChampion(game.player1, category: .DPS)
 print("\nSuper! Team is ready, let's GO!\n")
 
 
@@ -40,8 +41,10 @@ print("*************************************************************************
 print("Index----------------Name----------------Category----------------Life Points----------------Weapon----------------Damage")
 print("*************************************************************************************************************************")
 
-game.printChampionList(pChampions: game.championList)
-game.promptChampions(game.player2)
+game.printChampionList(champions: game.championList)
+game.promptChampion(game.player2, category: .tank)
+game.promptChampion(game.player2, category: .heal)
+game.promptChampion(game.player2, category: .DPS)
 print("\nSuper! Team is ready, let's GO!\n")
 
 
@@ -56,7 +59,8 @@ print("""
 
 
 game.play()
-game.stats()
+game.printStats()
+
 
 
 

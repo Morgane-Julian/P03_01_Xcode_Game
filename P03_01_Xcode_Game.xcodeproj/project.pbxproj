@@ -11,6 +11,7 @@
 		7B03AD5F2550009800DF21AF /* Crusader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03AD5E2550009800DF21AF /* Crusader.swift */; };
 		7B03AD622550009F00DF21AF /* Barbarian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03AD612550009F00DF21AF /* Barbarian.swift */; };
 		7B03AD65255000AC00DF21AF /* DemonHunter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B03AD64255000AC00DF21AF /* DemonHunter.swift */; };
+		7B1D5D8B258CA0D3009DA229 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1D5D8A258CA0D3009DA229 /* Output.swift */; };
 		7B231E1225837E5900D8738F /* Gungnir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B231E1125837E5900D8738F /* Gungnir.swift */; };
 		7B231E1525837EA200D8738F /* Trisula.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B231E1425837EA200D8738F /* Trisula.swift */; };
 		7B231E1825837EC200D8738F /* Mjöllnir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B231E1725837EC200D8738F /* Mjöllnir.swift */; };
@@ -44,6 +45,7 @@
 		7B03AD5E2550009800DF21AF /* Crusader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crusader.swift; sourceTree = "<group>"; };
 		7B03AD612550009F00DF21AF /* Barbarian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Barbarian.swift; sourceTree = "<group>"; };
 		7B03AD64255000AC00DF21AF /* DemonHunter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemonHunter.swift; sourceTree = "<group>"; };
+		7B1D5D8A258CA0D3009DA229 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
 		7B231E1125837E5900D8738F /* Gungnir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gungnir.swift; sourceTree = "<group>"; };
 		7B231E1425837EA200D8738F /* Trisula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trisula.swift; sourceTree = "<group>"; };
 		7B231E1725837EC200D8738F /* Mjöllnir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mjöllnir.swift"; sourceTree = "<group>"; };
@@ -72,6 +74,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B1D5D89258CA0BC009DA229 /* Output */ = {
+			isa = PBXGroup;
+			children = (
+				7B1D5D8A258CA0D3009DA229 /* Output.swift */,
+			);
+			path = Output;
+			sourceTree = "<group>";
+		};
 		7B231E1025837E1600D8738F /* LegendaryWeapons */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +95,7 @@
 		7B5EB80C2555B73500000B46 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7B1D5D89258CA0BC009DA229 /* Output */,
 				7B231E1025837E1600D8738F /* LegendaryWeapons */,
 				7B5EB80E2555B76F00000B46 /* Weapons */,
 				7B5EB80D2555B74D00000B46 /* Champions */,
@@ -204,6 +215,7 @@
 			files = (
 				7B5EB7EF255591F100000B46 /* Stick.swift in Sources */,
 				7BF43CAB254C310700A43B15 /* main.swift in Sources */,
+				7B1D5D8B258CA0D3009DA229 /* Output.swift in Sources */,
 				7B231E1225837E5900D8738F /* Gungnir.swift in Sources */,
 				7BF43CBC254C5A6900A43B15 /* Players.swift in Sources */,
 				7B5EB7B72555574B00000B46 /* Necromancer.swift in Sources */,
