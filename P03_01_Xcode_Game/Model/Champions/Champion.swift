@@ -49,5 +49,15 @@ class Champion: Equatable {
             return true
         }
     }
+    
+    // Fonction calcul du heal
+    func heal(target: Champion) {
+        target.life = target.life + self.weapon.heal
+    }
+    
+    // Fonct calcul de l'attaque
+    func attack(target: Champion) {
+        target.life = target.life - self.weapon.weaponDamage
+    }
 
 }

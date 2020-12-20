@@ -20,15 +20,19 @@ class Game {
         print("\nHello \(player.name) ! What's your name ?")
         while let summonerName = readLine() {
             if summonerName != "" {
-                return summonerName
+            return summonerName
+            } else {
+                print("Sorry this is not a valid name, \(player.name). Please enter your name.")
             }
         }
         return ""
     }
+        
+
     
     // Algo qui vérifie que le nom choisi pour chaque personnage n'est pas déjà pris
     func isChampionNameAvailable(userName: String) -> Bool {
-        if self.player1.championSelected.contains(where: {$0.name == userName}) || self.player2.championSelected.contains(where: {$0.name == userName}) {
+        if self.player1.team.contains(where: {$0.name == userName}) || self.player2.team.contains(where: {$0.name == userName}) {
             return false
         }
         return true
@@ -53,7 +57,7 @@ class Game {
                     print(" \n⚠️ This champion \(champion.name) is not a \(category), it's a \(champion.category) ⚠️\n")
                 }
             } else {
-                print("\n⚠️ Unknow champion with name \(prompt), ⚠️ try again.\n")
+                print("\n⚠️ Unknow champion with index \(prompt), ⚠️ try again.\n")
             }
         } else {
             print("\nThis is not a valid choice. Try again.")
@@ -70,10 +74,10 @@ class Game {
             print("\nWitch \(category) would you select in your team ?")
             champion = self.createChampion(category: category)
             if let c = champion {
-                player.championSelected.append(c)
+                player.team.append(c)
                 print("\nYou choose \(c.name) for \(category).\n")
                 player.championStat.append(c)
-                if let index = player.championSelected.lastIndex(of: c) {
+                if let index = player.team.lastIndex(of: c) {
                     c.index = index + 1
                 }
             }
@@ -91,7 +95,7 @@ class Game {
     
     // Game continue ? Calculate if team have 3 dead champions it's over.
     func isEndGame() -> Bool {
-        if self.player1.championSelected.isEmpty || self.player2.championSelected.isEmpty {
+        if self.player1.team.isEmpty || self.player2.team.isEmpty {
             return true
         } else {
             return false
@@ -143,95 +147,97 @@ class Game {
             print("*************************************************")
         }
     }
+    
 
-   
+    
+    func action(selectAction: String, playerAttacker: Player, playerTarget: Player) {
+        // le joueur à choisit une action dans play, on lui demande quel champion va jouer peut importe son choix sur attack ou heal
+        print("Quel champion va jouer ")
+        if let prompt = readLine(), let intPrompt = Int(prompt) {
+            if let playingChampion = playerAttacker.team.first(where: {$0.index == intPrompt}) {
+                magicChest(champion: playingChampion)
+         
+                // s'il a choisit 1 (attack) on rentre ici
+                if selectAction == "1" {
+                    print("Quel champ on attaque ?")
+                    let prompt = Int(readLine() ?? "")
+                    if let target = playerTarget.team.first(where: {$0.index == prompt}) {
+                        playingChampion.attack(target: target)
+                        if target.isAlive() {
+                            print("\(target.name) à subit \(playingChampion.weapon.weaponDamage) dégâts il lui reste \(target.life) points de vie\n")
+                        } else {
+                            print(" ⚠️ Warning \(target.name) is dead !! ☠️\n")
+                            print("☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️\n")
+                            if let iD = playerTarget.team.firstIndex(of: target) {
+                                playerTarget.team.remove(at: iD)
+                            }
+                        }
+                    }
+                }
+                // s'il à choisit 2 heal on rentre là
+                else if selectAction == "2", playingChampion.category == .heal {
+                    print("Quel champ on soigne ?")
+                    let prompt = Int(readLine() ?? "")
+                    if let target = playerAttacker.team.first(where: {$0.index == prompt}) {
+                        playingChampion.heal(target: target)
+                        print("\(target.name) won \(playingChampion.weapon.heal)pts of life, he now got \(target.life)pts of life")
+                    }
+                } else {
+                    print("Sorry, this is not valid, you chose healing you have to choose a heal champion.")
+                }
+            } else { print("Sorry, this champion is not in the list, try again.")
+                
+            }
+        }
+    }
+
+
     func play() {
-           let whoStart = self.whoStart()
-           var playerAttacker = whoStart.0
-           var playerTarget = whoStart.1
-           
-           while self.isEndGame() == false {
-               print("\nRound n°\(round)")
-               print("\nVoici la team de \(playerAttacker.name)\n")
-               printChampionList(champions: playerAttacker.championSelected)
-               print("_____________________________________________________\n")
-               print("\nVoici la team de \(playerTarget.name)")
-               printChampionList(champions: playerTarget.championSelected)
-               var selectAction = "1"
-               if playerAttacker.championSelected.contains(where: {$0.category == .heal }) {
-                   print("\(playerAttacker.name) do u want to\n 1.Attack an enemy team\n 2.Heal one of your mates ?")
-                   selectAction = readLine() ?? ""
-               }
-               if selectAction == "1" {  // le joueur choisit d'attaquer
-                   print("\(playerAttacker.name) please select a champion for Attack\n")
-                   var prompt = Int(readLine() ?? "")
-                   // prompt récupère la valeur de readLine en tant qu'Int
-                   if let championAttacker = playerAttacker.championSelected.first(where: {$0.index == prompt}) {
-                       //On a trouvé le champion correspondant
-                       magicChest(champion: championAttacker)
-                       var championTarget: Champion? = nil
-                       while championTarget == nil {
-                           print("Quel champion souhaitez vous attaquer ?\n")
-                           prompt = Int(readLine() ?? "")
-                           championTarget = playerTarget.championSelected.first(where: {$0.index == prompt})
-                           if championTarget != nil {
-                               //On a trouvé le champion correspondant
-                               championTarget!.life = championTarget!.life - championAttacker.weapon.weaponDamage
-                               if championTarget!.isAlive() {
-                                   print("\(championTarget!.name) à subit \(championAttacker.weapon.weaponDamage) dégâts il lui reste \(championTarget!.life) points de vie\n")
-                               } else {
-                                   print(" ⚠️ Warning \(championTarget!.name) is dead !! ☠️\n")
-                                   print("☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️\n")
-                                   if let iD = playerTarget.championSelected.firstIndex(of: championTarget!) {
-                                       playerTarget.championSelected.remove(at: iD)
-                                   }
-                               }
-                               swap(&playerAttacker , &playerTarget)
-                               self.round += 1
-                           } else {
-                               print("⚠️ Choix incorrect veuillez recommencer ⚠️\n")
-                           }
-                       }
-                   } else {
-                       print("Choix incorrect veuillez recommencer\n")
-                   }
-               } else if selectAction == "2" { // Le joueur choisit de soigner
-                   print("\(playerAttacker.name) please select a champion for heal\n")
-                   var prompt = Int(readLine() ?? "")        // prompt récupère la valeur de readLine en tant qu'Int
-                   if let championAttacker = playerAttacker.championSelected.first(where: {$0.index == prompt}), championAttacker.category == .heal {
-                       //On a trouvé le champion correspondant
-                       //Je vérifie que ça soit bien un heal
-                       magicChest(champion: championAttacker)
-                       print("Quel champion souhaitez vous soigner ?\n")
-                       prompt = Int(readLine() ?? "")
-                       if let healTarget = playerAttacker.championSelected.first(where: {$0.index == prompt}) {
-                           //On a trouvé le champion correspondant
-                           healTarget.life = healTarget.life + championAttacker.weapon.heal
-                           print("\(healTarget.name) à été soigné de \(championAttacker.weapon.heal) points de vie, il à désormais \(healTarget.life) points de vie\n")
-                       }
-                       swap(&playerAttacker , &playerTarget)
-                       self.round += 1
-                   } else {
-                       print("Choix incorrect ce champion n'est pas un heal veuillez recommencer\n")
-                   }
-               } else {
-                   print("⚠️ Choix incorrect veuillez recommencer ⚠️\n")
-               }
-               
-           }
-       }
-
+        
+        // Appel de whoStart pour définir qui commence
+        let whoStart = self.whoStart()
+        var playerAttacker = whoStart.0
+        var playerTarget = whoStart.1
+        // Debut de round, print les tableau de champions
+        while self.isEndGame() == false {
+            print("\nRound n°\(round)")
+            print("\nVoici la team de \(playerAttacker.name)\n")
+            printChampionList(champions: playerAttacker.team)
+            print("_____________________________________________________\n")
+            print("\nVoici la team de \(playerTarget.name)")
+            printChampionList(champions: playerTarget.team)
+            // Ask action
+            var selectAction = ""
+            while selectAction == "" {
+            if playerAttacker.team.contains(where: {$0.category == .heal}) {
+                print("\(playerAttacker.name) do you want to ?\n 1. Attack an ennemy team\n 2. Heal one of your mates")
+                selectAction = readLine() ?? ""
+                // Appel de action() en fonction du choix fait précédemment
+                self.action(selectAction: selectAction, playerAttacker: playerAttacker, playerTarget: playerTarget)
+            } else {
+                print("Sorry, your heal is dead you can't do this")
+            }
+            }
+            // Fin du round on incrémente round de 1 et on swap playerAttacker et playerTarget
+            swap(&playerAttacker , &playerTarget)
+            self.round += 1
+        }
+    }
+    
+    
+    
+    
     
     
     
     // Affichage des stats de fin de partie
     func printStats() {
-        if let winner = [self.player1, self.player2].first(where: {!$0.championSelected.isEmpty}) {
+        if let winner = [self.player1, self.player2].first(where: {!$0.team.isEmpty}), let looser = [self.player1, self.player2].first(where: {$0.team.isEmpty}) {
             print("youpi \(winner.name) a gagné")
             print("Game end in \(self.round)")
+            printChampionList(champions: winner.championStat)
+            printChampionList(champions: looser.championStat)
         }
-        
-        
     }
     
 

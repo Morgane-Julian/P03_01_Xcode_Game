@@ -8,7 +8,7 @@
 import Foundation
 
 class Player {
-    var championSelected = [Champion]() // Tableau de champion selectionnés par le joueur
+    var team = [Champion]() // Tableau de champion selectionnés par le joueur
     var championStat = [Champion]() // Tableau de champion selectionnés par le joueur pour l'affichage des stats de fin
     var deadChampion: Int = 0 // Stock the number of dead champions of the team
     var name : String
