@@ -8,6 +8,6 @@
 import Foundation
 class Mjöllnir : Weapon {
     init() {
-        super.init(weaponName: "Mjöllnir", weaponDamage: 100, heal: 0)
+        super.init(weaponName: "Mjöllnir", weaponDamage: 60, heal: 0)
     }
 }

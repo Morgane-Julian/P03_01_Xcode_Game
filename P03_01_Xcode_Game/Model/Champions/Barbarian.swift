@@ -9,7 +9,7 @@ import Foundation
 class Barbarian : Champion {
     
     init() {
-        super.init(index: 6, name: "barbarian", life: 150, category: .tank, weapon: Sword())
+        super.init(index: 6, name: "Barbarian", life: 150, category: .tank, weapon: Sword(), maxLife: 150)
     }
    
  }

@@ -20,7 +20,7 @@
 		7B5EB7EC2555919800000B46 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7EB2555919800000B46 /* Sword.swift */; };
 		7B5EB7EF255591F100000B46 /* Stick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7EE255591F100000B46 /* Stick.swift */; };
 		7B5EB7F22555920900000B46 /* Dagger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7F12555920900000B46 /* Dagger.swift */; };
-		7B5EB7F52555922C00000B46 /* Crossbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7F42555922C00000B46 /* Crossbow.swift */; };
+		7B5EB7F52555922C00000B46 /* Knife.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7F42555922C00000B46 /* Knife.swift */; };
 		7BF43CAB254C310700A43B15 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF43CAA254C310700A43B15 /* main.swift */; };
 		7BF43CB3254C5A2500A43B15 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF43CB2254C5A2500A43B15 /* Weapon.swift */; };
 		7BF43CB6254C5A3400A43B15 /* Champion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF43CB5254C5A3400A43B15 /* Champion.swift */; };
@@ -54,7 +54,7 @@
 		7B5EB7EB2555919800000B46 /* Sword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
 		7B5EB7EE255591F100000B46 /* Stick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stick.swift; sourceTree = "<group>"; };
 		7B5EB7F12555920900000B46 /* Dagger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dagger.swift; sourceTree = "<group>"; };
-		7B5EB7F42555922C00000B46 /* Crossbow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crossbow.swift; sourceTree = "<group>"; };
+		7B5EB7F42555922C00000B46 /* Knife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Knife.swift; sourceTree = "<group>"; };
 		7BF43CA7254C310700A43B15 /* P03_01_Xcode_Game */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = P03_01_Xcode_Game; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BF43CAA254C310700A43B15 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		7BF43CB2254C5A2500A43B15 /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 				7B5EB7EB2555919800000B46 /* Sword.swift */,
 				7B5EB7EE255591F100000B46 /* Stick.swift */,
 				7B5EB7F12555920900000B46 /* Dagger.swift */,
-				7B5EB7F42555922C00000B46 /* Crossbow.swift */,
+				7B5EB7F42555922C00000B46 /* Knife.swift */,
 			);
 			path = Weapons;
 			sourceTree = "<group>";
@@ -219,7 +219,7 @@
 				7B231E1225837E5900D8738F /* Gungnir.swift in Sources */,
 				7BF43CBC254C5A6900A43B15 /* Players.swift in Sources */,
 				7B5EB7B72555574B00000B46 /* Necromancer.swift in Sources */,
-				7B5EB7F52555922C00000B46 /* Crossbow.swift in Sources */,
+				7B5EB7F52555922C00000B46 /* Knife.swift in Sources */,
 				7B03AD65255000AC00DF21AF /* DemonHunter.swift in Sources */,
 				7BF43CB3254C5A2500A43B15 /* Weapon.swift in Sources */,
 				7B5EB7EC2555919800000B46 /* Sword.swift in Sources */,

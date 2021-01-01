@@ -9,7 +9,7 @@ import Foundation
 class Wizzard : Champion {
    
     init() {
-        super.init(index: 4, name: "wizzard", life: 100, category: .DPS, weapon: Dagger())
+        super.init(index: 4, name: "   Wizzard", life: 100, category: .DPS, weapon: Dagger(), maxLife: 100)
     }
     
    

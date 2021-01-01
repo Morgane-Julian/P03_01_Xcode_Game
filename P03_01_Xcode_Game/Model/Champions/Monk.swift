@@ -10,7 +10,7 @@ import Foundation
 class Monk: Champion {
     
     init() {
-        super.init(index: 2, name: "monk", life: 100, category: .heal, weapon: Stick())
+        super.init(index: 2, name: "   Monk   ", life: 100, category: .heal, weapon: Stick(), maxLife: 100)
     }
 }
 

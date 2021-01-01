@@ -6,9 +6,9 @@
 //
 
 import Foundation
-class Crossbow : Weapon {
+class Knife : Weapon {
 
     init() {
-        super.init(weaponName: "crossbow", weaponDamage: 40, heal: 0)
+        super.init(weaponName: "knife", weaponDamage: 40, heal: 0)
     }
 }

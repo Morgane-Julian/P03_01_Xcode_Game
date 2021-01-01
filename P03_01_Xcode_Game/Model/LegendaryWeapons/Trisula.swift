@@ -8,6 +8,6 @@
 import Foundation
 class Trisula : Weapon {
     init() {
-        super.init(weaponName: "trisula", weaponDamage: 30, heal: 40 )
+        super.init(weaponName: "trisula", weaponDamage: 40, heal: 30 )
     }
 }
