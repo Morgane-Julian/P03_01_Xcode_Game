@@ -8,30 +8,30 @@
 import Foundation
 
 class Game {
-    var championList : [Champion] = [Necromancer(), Monk(), DemonHunter(), Wizzard(), Crusader(), Barbarian()]
-    var player1 : Player = Player(name: "Player1")
-    var player2 : Player = Player(name: "Player2")
-    var round : Int = 1
-    var legendaryWeapons = [Gungnir(), Trisula(), Mjöllnir()]
+    private var championList : [Champion] = [Necromancer(), Monk(), DemonHunter(), Wizzard(), Crusader(), Barbarian()]
+    private var player1 : Player = Player(name: "Player1")
+    private var player2 : Player = Player(name: "Player2")
+    private var round : Int = 1
+    private var legendaryWeapons = [Gungnir(), Trisula(), Mjöllnir()]
     
     
     // Welcoming players and choosing a personalized name
-    func hello(player: Player) -> String {
+    private func hello(player: Player) -> String {
         print("\nHello \(player.name) ! What's your name ?")
         while let summonerName = readLine() {
-            if summonerName != "" && summonerName != player1.name {
-            return summonerName
+            if summonerName.trimmingCharacters(in: .whitespaces) != "" && summonerName != player1.name && summonerName != player2.name {
+                return summonerName
             } else {
-                print("⚠️ Sorry this is not a valid name, \(player.name) or this name is already taken. Please enter another name. ⚠️")
+                print("⚠️ Sorry this is not a valid name, or this name is already taken. Please \(player.name) choose another name.")
             }
         }
         return ""
     }
-        
-
     
-    // Algo that checks if the name chosen for each character isn't already taken
-    func isChampionNameAvailable(userName: String) -> Bool {
+    
+    
+    // Algo that checks if the name chosen for each character is free.
+    private func isChampionNameAvailable(userName: String) -> Bool {
         if self.player1.team.contains(where: {$0.name == userName}) || self.player2.team.contains(where: {$0.name == userName}) || userName == "" {
             return false
         }
@@ -39,11 +39,12 @@ class Game {
     }
     
     // Create a champion copy with a new name
-    func createChampion(category: Role) -> Champion? {
+    private func createChampion(category: Role) -> Champion? {
         var result : Champion?
         if let line = readLine(), let prompt = Int(line) {
             if let champion = self.championList.first(where: {$0.index == prompt}) {
                 if champion.category == category {
+                    while result == nil {
                     print("\nWhat name would you give to your \(champion.name) ?")
                     if let promptUserName = readLine() {
                         if self.isChampionNameAvailable(userName: promptUserName) {
@@ -53,6 +54,7 @@ class Game {
                             print("\n⚠️ This name \(promptUserName) is not available or you enter a bad name ⚠️, try again.\n")
                         }
                     }
+                    }
                 } else {
                     print(" \n⚠️ This champion \(champion.name) is not a \(category), it's a \(champion.category) ⚠️\n")
                 }
@@ -60,17 +62,17 @@ class Game {
                 print("\n⚠️ Unknow champion with index \(prompt), ⚠️ try again.\n")
             }
         } else {
-            print("\n⚠️ This is not a valid choice. Try again. ⚠️")
+            print("\n⚠️ This is not a valid choice. You have to type the index of the champion. Try again. ⚠️")
         }
         return result
     }
     
     
     // Add the champion created previously in the table of player
-    func promptChampion(_ player: Player, category: Role) {
+    private func promptChampion(_ player: Player, category: Role) {
         var champion: Champion?
         while champion == nil {
-            print("\nWitch \(category) would you select in your team ? Type his index")
+            print("\nType the index of the \(category) you want on your team.")
             champion = self.createChampion(category: category)
             if let c = champion {
                 player.team.append(c)
@@ -83,17 +85,8 @@ class Game {
         }
     }
     
-    
-    
-    // Print the list of champions available (for champion select or game..)
-    func printChampionList(champions: [Champion]) {
-        for champion in champions {
-            print("\(champion.index).         \(champion.name)                       \(champion.category)                 \(champion.life)/\(champion.maxLife)HP                  \(champion.weapon.weaponName)                  \(champion.weapon.weaponDamage) dmg\n")
-        }
-    }
-    
     // Calculate if team have 3 dead champions game is over.
-    func isEndGame() -> Bool {
+    private func isEndGame() -> Bool {
         if self.player1.team.isEmpty || self.player2.team.isEmpty {
             return true
         } else {
@@ -102,7 +95,7 @@ class Game {
     }
     
     // Decide who start between 2 players.
-    func whoStart() -> (Player, Player) {
+    private func whoStart() -> (Player, Player) {
         var alea = [game.player1, game.player2]
         alea.shuffle()
         print("🎲🎲🎲 Chance will decide who will strike the first blood ! 🎲🎲🎲\n")
@@ -112,7 +105,7 @@ class Game {
     }
     
     // Magic chest 3/10 chances to pop-up with five random surprise.
-    func magicChest(champion: Champion) {
+    private func magicChest(champion: Champion) {
         let randomAppear = Int.random(in: 1...10)
         let randomContent = Int.random(in: 1...5)
         if randomAppear == 2 || randomAppear == 6 || randomAppear == 9 {
@@ -137,7 +130,7 @@ class Game {
                     print("\nSorry, this weapon is only for heal, maybe more luck next time 🤪 ")
                 }
             case 4:
-                print("💣💣💣💣💣💣  There was a bomb in the chest, you lose 15 points of life")
+                print("💣💣💣💣💣💣  There was a bomb in the chest, you lose 15 points of life 💣💣💣💣💣💣")
                 champion.life -= 15
             case 5:
                 print("⚔️⚔️⚔️ You found a new weapon: Mjöllnir with a power of 60 !! ⚔️⚔️⚔️")
@@ -153,9 +146,28 @@ class Game {
         }
     }
     
-
+    // Ask to the current player : "select 1 for attack or 2 for heal"
+    private func selectAnAction(playerAttacker: Player, playerTarget: Player) {
+        var selectAction = ""
+        while selectAction != "1" && selectAction != "2" {
+            if playerAttacker.team.contains(where: {$0.category == .heal}) {
+                print("\(playerAttacker.name) do you want to ?\n 1. Attack an ennemy team\n 2. Heal one of your mates of 30 points of life")
+                selectAction = readLine() ?? ""
+                
+                if selectAction == "1" || selectAction == "2" {
+                    self.action(selectAction: selectAction, playerAttacker: playerAttacker, playerTarget: playerTarget)
+                } else {
+                    print("⚠️ Error, you have to choose 1 or 2 ⚠️")
+                }
+            } else {
+                selectAction = "1"
+                self.action(selectAction: selectAction, playerAttacker: playerAttacker, playerTarget: playerTarget)
+            }
+        }
+    }
+    
     // Game logic with selection of two champion "playingChampion" and "Target" and logic of the selected action (heal or attack).
-    func action(selectAction: String, playerAttacker: Player, playerTarget: Player) {
+    private func action(selectAction: String, playerAttacker: Player, playerTarget: Player) {
         var finishAction = false
         
         while finishAction == false {
@@ -194,12 +206,19 @@ class Game {
                             print("Wich champion need to be healed ?")
                             let prompt = Int(readLine() ?? "")
                             if let target = playerAttacker.team.first(where: {$0.index == prompt}) {
-                                playingChampion.heal(target: target)
-                                finishAction = true
-                                print("\(target.name) won \(playingChampion.weapon.heal)pts of life, now he have \(target.life)pts of life")
+                                if target.life < target.maxLife {
+                                    playingChampion.heal(target: target)
+                                    finishAction = true
+                                    print("\(target.name) won \(playingChampion.weapon.heal)pts of life, now he have \(target.life)pts of life")
+                                }
+                                else {
+                                    print("⚠️ Sorry this champion is full HP, you can't heal him. ⚠️")
+                                    finishAction = true
+                                    selectAnAction(playerAttacker: playerAttacker, playerTarget: playerTarget)
+                                }
                             }
                             else {
-                                print("⚠️ Sorry, you can't heal this champion. ⚠️")
+                                print("⚠️ Sorry you can't heal this champion. ⚠️")
                             }
                         }
                     } else {
@@ -211,104 +230,80 @@ class Game {
             }
         }
     }
-
-// Decide who start the game, print the two teams, select an action (heal or attack), swap the playerAttacker and playerTarget and increment round.
-    func play() {
+    
+    // Decide who start the game, print the two teams, select an action (heal or attack), swap the playerAttacker and playerTarget and increment round.
+    private func play() {
         let whoStart = self.whoStart()
         var playerAttacker = whoStart.0
         var playerTarget = whoStart.1
         
         while self.isEndGame() == false {
             print("\nRound n°\(round)\n")
-            print("\nHere is the team of \(playerAttacker.name)\n")
-            table()
-            printChampionList(champions: playerAttacker.team)
+            print("\n\(playerAttacker.name)'s team : \n")
+            Output.tablePrint()
+            Output.printChampionList(champions: playerAttacker.team)
             print("_____________________________________________________\n")
-            print("\nHere is the team of \(playerTarget.name)")
-            table()
-            printChampionList(champions: playerTarget.team)
-            
-            var selectAction = ""
-            while selectAction != "1" && selectAction != "2" {
-                if playerAttacker.team.contains(where: {$0.category == .heal}) {
-                    print("\(playerAttacker.name) do you want to ?\n 1. Attack an ennemy team\n 2. Heal one of your mates of 30 points of life")
-                    selectAction = readLine() ?? ""
-                    
-                    if selectAction == "1" || selectAction == "2" {
-                        self.action(selectAction: selectAction, playerAttacker: playerAttacker, playerTarget: playerTarget)
-                    } else {
-                        print("⚠️ Error, you have to choose 1 or 2 ⚠️")
-                    }
-                } else {
-                    selectAction = "1"
-                    self.action(selectAction: selectAction, playerAttacker: playerAttacker, playerTarget: playerTarget)
-                }
-            }
-            
+            print("\n\(playerTarget.name)'s team :")
+            Output.tablePrint()
+            Output.printChampionList(champions: playerTarget.team)
+            selectAnAction(playerAttacker: playerAttacker, playerTarget: playerTarget)
             swap(&playerAttacker , &playerTarget)
             self.round += 1
         }
     }
     
     
-    
-    
-    
-    
-    
     // Print the statistics of end game.
-    func printStats() {
+    private func printStats() {
         if let winner = [self.player1, self.player2].first(where: {!$0.team.isEmpty}), let looser = [self.player1, self.player2].first(where: {$0.team.isEmpty}) {
-            victory()
-            print("🥇🥇🥇 YAY!  \(winner.name) won the game. 🥇🥇🥇")
-            print("Game end in \(self.round) rounds. \n")
+            Output.victoryPrint()
+            print("🥇🥇🥇 YAY!  \(winner.name) won the game  in \(self.round) rounds. 🥇🥇🥇")
             print("Here was the team of \(winner.name)")
-            table()
+            Output.tablePrint()
             for champions in winner.championStat {
                 print("\(champions.index).         \(champions.name)                       \(champions.category)                 \(champions.life)/\(champions.maxLife)HP                  \(champions.weapon.weaponName)                  \(champions.weapon.weaponDamage) dmg\n")
             }
             print("Here was the team of \(looser.name)")
-            table()
+            Output.tablePrint()
             for champions in looser.championStat {
                 print("\(champions.index).         \(champions.name)                       \(champions.category)                 \(champions.life)/\(champions.maxLife)HP                  \(champions.weapon.weaponName)                  \(champions.weapon.weaponDamage) dmg\n")
             }
         }
     }
     
-
-    // New game start, call to the previously functions and output.
-    func new() {
-        welcome()
-
+    
+    // Starting game.
+    func start() {
+        Output.welcomePrint()
+        
         self.player1.name = self.hello(player: self.player1)
         self.player2.name = self.hello(player: self.player2)
-
-        championSelect()
+        
+        Output.championSelectPrint()
         print("\n \(self.player1.name) you have too choose 3 champions 🧙🏼‍♀️🧟‍♀️🧝🏾 in your team, 1 heal, 1 tank and 1 DPS in the following list.\n")
-        table()
-
-        self.printChampionList(champions: self.championList)
+        Output.tablePrint()
+        
+        Output.self.printChampionList(champions: self.championList)
         self.promptChampion(self.player1, category: .tank)
         self.promptChampion(self.player1, category: .heal)
         self.promptChampion(self.player1, category: .DPS)
-        print("\nSuper! Team is ready, let's GO!\n")
-
-        print("\n\(self.player2.name) is u turn to select a team!\n You have too choose 3 champions 🧙🏼‍♀️🧟‍♀️🧝🏾 in your team, 1 heal, 1 tank and 1 DPS in the following list.\n")
-        table()
-
-        self.printChampionList(champions: self.championList)
+        
+        print("\n\(self.player2.name) is your turn to select a team!\n You have too choose 3 champions 🧙🏼‍♀️🧟‍♀️🧝🏾 in your team, 1 heal, 1 tank and 1 DPS in the following list.\n")
+        Output.tablePrint()
+        
+        Output.self.printChampionList(champions: self.championList)
         self.promptChampion(self.player2, category: .tank)
         self.promptChampion(self.player2, category: .heal)
         self.promptChampion(self.player2, category: .DPS)
-        print("\nSuper! Team is ready, let's GO!\n")
-
-        gameRun()
-
+        print("\nSuper! Teams are ready, let's GO!\n")
+        
+        Output.fightPrint()
+        
         self.play()
         self.printStats()
     }
     
     
-
+    
 }
 

@@ -9,9 +9,8 @@ import Foundation
 class Necromancer : Champion {
     
     init() {
-        super.init(index: 1, name: "Necromancer", life: 100, category: .heal, weapon: Stick(), maxLife: 100)
+        super.init(index: 1, name: "Necromancer", life: 80, category: .heal, weapon: Stick(), maxLife: 80)
     }
-    
 }
 
 

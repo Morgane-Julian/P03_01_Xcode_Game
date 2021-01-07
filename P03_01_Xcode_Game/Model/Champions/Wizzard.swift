@@ -7,13 +7,11 @@
 
 import Foundation
 class Wizzard : Champion {
-   
-    init() {
-        super.init(index: 4, name: "   Wizzard", life: 100, category: .DPS, weapon: Dagger(), maxLife: 100)
-    }
     
-   
- }
+    init() {
+        super.init(index: 4, name: "   Wizzard", life: 70, category: .DPS, weapon: Dagger(), maxLife: 70)
+    }
+}
 
 
 

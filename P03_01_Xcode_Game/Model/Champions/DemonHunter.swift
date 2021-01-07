@@ -10,9 +10,9 @@ import Foundation
 class DemonHunter : Champion {
     
     init() {
-        super.init(index: 3, name: "Demon Hunter", life: 100, category: .DPS, weapon: Knife(), maxLife: 100)
+        super.init(index: 3, name: "Demon Hunter", life: 90, category: .DPS, weapon: Knife(), maxLife: 90)
     }
- }
+}
 
 
 

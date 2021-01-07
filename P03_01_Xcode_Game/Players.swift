@@ -17,9 +17,9 @@ class Player {
     init(name: String) {
         self.name = name
     }
-
-   
-    }
     
+    
+}
+
 
 

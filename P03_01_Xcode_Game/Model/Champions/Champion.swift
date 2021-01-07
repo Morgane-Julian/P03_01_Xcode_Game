@@ -20,7 +20,6 @@ class Champion: Equatable {
         return lhs.index == rhs.index
     }
     
-    
     var name: String
     var life: Int
     var weapon: Weapon
@@ -55,13 +54,13 @@ class Champion: Equatable {
     // heal calculation
     func heal(target: Champion) {
         if target.life < target.maxLife {
-        target.life = target.life + self.weapon.heal
-    }
+            target.life = target.life + self.weapon.heal
+        }
     }
     
     // attack calculation
     func attack(target: Champion) {
         target.life = target.life - self.weapon.weaponDamage
     }
-
+    
 }
