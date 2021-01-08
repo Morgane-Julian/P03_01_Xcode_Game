@@ -15,6 +15,7 @@
 		7B231E1225837E5900D8738F /* Gungnir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B231E1125837E5900D8738F /* Gungnir.swift */; };
 		7B231E1525837EA200D8738F /* Trisula.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B231E1425837EA200D8738F /* Trisula.swift */; };
 		7B231E1825837EC200D8738F /* Mjöllnir.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B231E1725837EC200D8738F /* Mjöllnir.swift */; };
+		7B442EFE25A85702007ACE2B /* Fork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B442EFD25A85702007ACE2B /* Fork.swift */; };
 		7B5EB7B72555574B00000B46 /* Necromancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7B62555574B00000B46 /* Necromancer.swift */; };
 		7B5EB7BC255557E400000B46 /* Monk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7BB255557E400000B46 /* Monk.swift */; };
 		7B5EB7EC2555919800000B46 /* Sword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5EB7EB2555919800000B46 /* Sword.swift */; };
@@ -49,6 +50,7 @@
 		7B231E1125837E5900D8738F /* Gungnir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gungnir.swift; sourceTree = "<group>"; };
 		7B231E1425837EA200D8738F /* Trisula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trisula.swift; sourceTree = "<group>"; };
 		7B231E1725837EC200D8738F /* Mjöllnir.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mjöllnir.swift"; sourceTree = "<group>"; };
+		7B442EFD25A85702007ACE2B /* Fork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fork.swift; sourceTree = "<group>"; };
 		7B5EB7B62555574B00000B46 /* Necromancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Necromancer.swift; sourceTree = "<group>"; };
 		7B5EB7BB255557E400000B46 /* Monk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monk.swift; sourceTree = "<group>"; };
 		7B5EB7EB2555919800000B46 /* Sword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sword.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				7B231E1125837E5900D8738F /* Gungnir.swift */,
 				7B231E1425837EA200D8738F /* Trisula.swift */,
 				7B231E1725837EC200D8738F /* Mjöllnir.swift */,
+				7B442EFD25A85702007ACE2B /* Fork.swift */,
 			);
 			path = LegendaryWeapons;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				7BF43CBC254C5A6900A43B15 /* Players.swift in Sources */,
 				7B5EB7B72555574B00000B46 /* Necromancer.swift in Sources */,
 				7B5EB7F52555922C00000B46 /* Knife.swift in Sources */,
+				7B442EFE25A85702007ACE2B /* Fork.swift in Sources */,
 				7B03AD65255000AC00DF21AF /* DemonHunter.swift in Sources */,
 				7BF43CB3254C5A2500A43B15 /* Weapon.swift in Sources */,
 				7B5EB7EC2555919800000B46 /* Sword.swift in Sources */,

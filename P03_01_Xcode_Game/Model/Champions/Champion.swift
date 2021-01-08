@@ -53,14 +53,17 @@ class Champion: Equatable {
     
     // heal calculation
     func heal(target: Champion) {
-        if target.life < target.maxLife {
-            target.life = target.life + self.weapon.heal
+        let healing: Int = weapon.weaponDamage
+        if target.life + healing >= target.maxLife {
+            target.life = target.maxLife
+        } else {
+            target.life += healing
         }
     }
     
     // attack calculation
     func attack(target: Champion) {
-        target.life = target.life - self.weapon.weaponDamage
-    }
+            target.life = target.life - self.weapon.weaponDamage
+        }
     
 }

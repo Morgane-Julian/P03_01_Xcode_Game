@@ -45,15 +45,15 @@ class Game {
             if let champion = self.championList.first(where: {$0.index == prompt}) {
                 if champion.category == category {
                     while result == nil {
-                    print("\nWhat name would you give to your \(champion.name) ?")
-                    if let promptUserName = readLine() {
-                        if self.isChampionNameAvailable(userName: promptUserName) {
-                            result = champion.copy()
-                            result?.name = promptUserName
-                        } else {
-                            print("\n⚠️ This name \(promptUserName) is not available or you enter a bad name ⚠️, try again.\n")
+                        print("\nWhat name would you give to your \(champion.name) ?")
+                        if let promptUserName = readLine() {
+                            if self.isChampionNameAvailable(userName: promptUserName) {
+                                result = champion.copy()
+                                result?.name = promptUserName
+                            } else {
+                                print("\n⚠️ This name \(promptUserName) is not available or you enter a bad name ⚠️, try again.\n")
+                            }
                         }
-                    }
                     }
                 } else {
                     print(" \n⚠️ This champion \(champion.name) is not a \(category), it's a \(champion.category) ⚠️\n")
@@ -104,10 +104,10 @@ class Game {
         return (alea.first!, alea.last!)
     }
     
-    // Magic chest 3/10 chances to pop-up with five random surprise.
+    // Magic chest 3/10 chances to pop-up with four random surprise.
     private func magicChest(champion: Champion) {
         let randomAppear = Int.random(in: 1...10)
-        let randomContent = Int.random(in: 1...5)
+        let randomContent = Int.random(in: 1...4)
         if randomAppear == 2 || randomAppear == 6 || randomAppear == 9 {
             print("🎁🎁🎁 Woooaaaa you are lucky !! A chest just popped up. 🎁🎁🎁")
             print("________________________________________________________________________________")
@@ -121,7 +121,12 @@ class Game {
                     champion.weapon = Gungnir()
                 }
             case 2:
-                print("⚜️⚜️⚜️ The chest was empty ⚜️⚜️⚜️")
+                print("🍴🍴🍴 You found a new weapon : A fork !! Better than nothing.. Your power is now to 5 damage. 🍴🍴🍴 ")
+                if champion.category == .heal {
+                    print("\nSorry, this weapon is not for heal, maybe more luck next time 🤪 ")
+                } else {
+                    champion.weapon = Fork()
+                }
             case 3:
                 print("⚔️⚔️⚔️ You found a new weapon: Trisula! with power of 40 and heal 30! ⚔️⚔️⚔️\n")
                 if champion.category == .heal {
@@ -130,9 +135,6 @@ class Game {
                     print("\nSorry, this weapon is only for heal, maybe more luck next time 🤪 ")
                 }
             case 4:
-                print("💣💣💣💣💣💣  There was a bomb in the chest, you lose 15 points of life 💣💣💣💣💣💣")
-                champion.life -= 15
-            case 5:
                 print("⚔️⚔️⚔️ You found a new weapon: Mjöllnir with a power of 60 !! ⚔️⚔️⚔️")
                 if champion.category == .heal {
                     print("\nSorry, this weapon is not for heal, maybe more luck next time 🤪 ")
@@ -151,9 +153,8 @@ class Game {
         var selectAction = ""
         while selectAction != "1" && selectAction != "2" {
             if playerAttacker.team.contains(where: {$0.category == .heal}) {
-                print("\(playerAttacker.name) do you want to ?\n 1. Attack an ennemy team\n 2. Heal one of your mates of 30 points of life")
+                print("\(playerAttacker.name) do you want to ?\n 1. Attack an ennemy team\n 2. Heal one of your mates")
                 selectAction = readLine() ?? ""
-                
                 if selectAction == "1" || selectAction == "2" {
                     self.action(selectAction: selectAction, playerAttacker: playerAttacker, playerTarget: playerTarget)
                 } else {
@@ -171,7 +172,7 @@ class Game {
         var finishAction = false
         
         while finishAction == false {
-            print("Wich champion will play ?")
+            print("Which champion will play ?")
             if let prompt = readLine(), let intPrompt = Int(prompt) {
                 if let playingChampion = playerAttacker.team.first(where: {$0.index == intPrompt}) {
                     
@@ -179,14 +180,15 @@ class Game {
                     if selectAction == "1" {
                         magicChest(champion: playingChampion)
                         while finishAction == false {
-                            print("Wich champion will suffer your attack ?")
+                            print("Which champion will suffer your attack ?")
                             let prompt = Int(readLine() ?? "")
                             if let target = playerTarget.team.first(where: {$0.index == prompt}) {
                                 playingChampion.attack(target: target)
                                 finishAction = true
                                 if target.isAlive() {
-                                    print("\(target.name) suffered \(playingChampion.weapon.weaponDamage) damage, now he have \(target.life) points of life.\n")
+                                    print("\(target.name) suffered \(playingChampion.weapon.weaponDamage) damage, he now has \(target.life) points of life.\n")
                                 } else {
+                                    target.life = 0
                                     print("\(target.name) suffered of \(playingChampion.weapon.weaponDamage) damage")
                                     print("☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️\n")
                                     print("        ⚠️ Warning \(target.name) is dead !! ⚠️\n")
@@ -203,13 +205,13 @@ class Game {
                     else if selectAction == "2", playingChampion.category == .heal {
                         magicChest(champion: playingChampion)
                         while finishAction == false {
-                            print("Wich champion need to be healed ?")
+                            print("Which champion need to be healed ?")
                             let prompt = Int(readLine() ?? "")
                             if let target = playerAttacker.team.first(where: {$0.index == prompt}) {
                                 if target.life < target.maxLife {
                                     playingChampion.heal(target: target)
                                     finishAction = true
-                                    print("\(target.name) won \(playingChampion.weapon.heal)pts of life, now he have \(target.life)pts of life")
+                                    print("\(target.name) has been healed, he now has \(target.life)points of life")
                                 }
                                 else {
                                     print("⚠️ Sorry this champion is full HP, you can't heal him. ⚠️")
