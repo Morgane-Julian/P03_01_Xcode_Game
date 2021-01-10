@@ -28,14 +28,21 @@ class Game {
         return ""
     }
     
-    
-    
-    // Algo that checks if the name chosen for each character is free.
-    private func isChampionNameAvailable(userName: String) -> Bool {
-        if self.player1.team.contains(where: {$0.name == userName}) || self.player2.team.contains(where: {$0.name == userName}) || userName == "" {
-            return false
+    // Add the champion created previously in the table of player
+    private func promptChampion(_ player: Player, category: Role) {
+        var champion: Champion?
+        while champion == nil {
+            print("\nType the index of the \(category) you want on your team.")
+            champion = self.createChampion(category: category)
+            if let c = champion {
+                player.team.append(c)
+                print("\nYou choose \(c.name) for \(category).\n")
+                player.championStat.append(c)
+                if let index = player.team.lastIndex(of: c) {
+                    c.index = index + 1
+                }
+            }
         }
-        return true
     }
     
     // Create a champion copy with a new name
@@ -67,31 +74,12 @@ class Game {
         return result
     }
     
-    
-    // Add the champion created previously in the table of player
-    private func promptChampion(_ player: Player, category: Role) {
-        var champion: Champion?
-        while champion == nil {
-            print("\nType the index of the \(category) you want on your team.")
-            champion = self.createChampion(category: category)
-            if let c = champion {
-                player.team.append(c)
-                print("\nYou choose \(c.name) for \(category).\n")
-                player.championStat.append(c)
-                if let index = player.team.lastIndex(of: c) {
-                    c.index = index + 1
-                }
-            }
-        }
-    }
-    
-    // Calculate if team have 3 dead champions game is over.
-    private func isEndGame() -> Bool {
-        if self.player1.team.isEmpty || self.player2.team.isEmpty {
-            return true
-        } else {
+    // Algo that checks if the name chosen for each character is free.
+    private func isChampionNameAvailable(userName: String) -> Bool {
+        if self.player1.team.contains(where: {$0.name == userName}) || self.player2.team.contains(where: {$0.name == userName}) || userName == "" {
             return false
         }
+        return true
     }
     
     // Decide who start between 2 players.
@@ -233,47 +221,6 @@ class Game {
         }
     }
     
-    // Decide who start the game, print the two teams, select an action (heal or attack), swap the playerAttacker and playerTarget and increment round.
-    private func play() {
-        let whoStart = self.whoStart()
-        var playerAttacker = whoStart.0
-        var playerTarget = whoStart.1
-        
-        while self.isEndGame() == false {
-            print("\nRound n°\(round)\n")
-            print("\n\(playerAttacker.name)'s team : \n")
-            Output.tablePrint()
-            Output.printChampionList(champions: playerAttacker.team)
-            print("_____________________________________________________\n")
-            print("\n\(playerTarget.name)'s team :")
-            Output.tablePrint()
-            Output.printChampionList(champions: playerTarget.team)
-            selectAnAction(playerAttacker: playerAttacker, playerTarget: playerTarget)
-            swap(&playerAttacker , &playerTarget)
-            self.round += 1
-        }
-    }
-    
-    
-    // Print the statistics of end game.
-    private func printStats() {
-        if let winner = [self.player1, self.player2].first(where: {!$0.team.isEmpty}), let looser = [self.player1, self.player2].first(where: {$0.team.isEmpty}) {
-            Output.victoryPrint()
-            print("🥇🥇🥇 YAY!  \(winner.name) won the game  in \(self.round) rounds. 🥇🥇🥇")
-            print("Here was the team of \(winner.name)")
-            Output.tablePrint()
-            for champions in winner.championStat {
-                print("\(champions.index).         \(champions.name)                       \(champions.category)                 \(champions.life)/\(champions.maxLife)HP                  \(champions.weapon.weaponName)                  \(champions.weapon.weaponDamage) dmg\n")
-            }
-            print("Here was the team of \(looser.name)")
-            Output.tablePrint()
-            for champions in looser.championStat {
-                print("\(champions.index).         \(champions.name)                       \(champions.category)                 \(champions.life)/\(champions.maxLife)HP                  \(champions.weapon.weaponName)                  \(champions.weapon.weaponDamage) dmg\n")
-            }
-        }
-    }
-    
-    
     // Starting game.
     func start() {
         Output.welcomePrint()
@@ -283,7 +230,6 @@ class Game {
         
         Output.championSelectPrint()
         print("\n \(self.player1.name) you have too choose 3 champions 🧙🏼‍♀️🧟‍♀️🧝🏾 in your team, 1 heal, 1 tank and 1 DPS in the following list.\n")
-        Output.tablePrint()
         
         Output.self.printChampionList(champions: self.championList)
         self.promptChampion(self.player1, category: .tank)
@@ -291,7 +237,6 @@ class Game {
         self.promptChampion(self.player1, category: .DPS)
         
         print("\n\(self.player2.name) is your turn to select a team!\n You have too choose 3 champions 🧙🏼‍♀️🧟‍♀️🧝🏾 in your team, 1 heal, 1 tank and 1 DPS in the following list.\n")
-        Output.tablePrint()
         
         Output.self.printChampionList(champions: self.championList)
         self.promptChampion(self.player2, category: .tank)
@@ -305,7 +250,44 @@ class Game {
         self.printStats()
     }
     
+    // Decide who start the game, print the two teams, select an action (heal or attack), swap the playerAttacker and playerTarget and increment round.
+    private func play() {
+        let whoStart = self.whoStart()
+        var playerAttacker = whoStart.0
+        var playerTarget = whoStart.1
+        
+        while self.isEndGame() == false {
+            print("\nRound n°\(round)\n")
+            print("\n\(playerAttacker.name)'s team : \n")
+            Output.printChampionList(champions: playerAttacker.team)
+            print("_____________________________________________________\n")
+            print("\n\(playerTarget.name)'s team :")
+            Output.printChampionList(champions: playerTarget.team)
+            selectAnAction(playerAttacker: playerAttacker, playerTarget: playerTarget)
+            swap(&playerAttacker , &playerTarget)
+            self.round += 1
+        }
+    }
     
+    // Calculate if team have 3 dead champions game is over.
+    private func isEndGame() -> Bool {
+        if self.player1.team.isEmpty || self.player2.team.isEmpty {
+            return true
+        } else {
+            return false
+        }
+    }
     
+    // Print the statistics of end game.
+    private func printStats() {
+        if let winner = [self.player1, self.player2].first(where: {!$0.team.isEmpty}), let looser = [self.player1, self.player2].first(where: {$0.team.isEmpty}) {
+            Output.victoryPrint()
+            print("🥇🥇🥇 YAY!  \(winner.name) won the game  in \(self.round) rounds. 🥇🥇🥇")
+            print("Here was the team of \(winner.name)")
+            Output.printChampionList(champions: winner.championStat)
+            print("Here was the team of \(looser.name)")
+            Output.printChampionList(champions: looser.championStat)
+        }
+    }
 }
 

@@ -16,10 +16,6 @@ enum Role: Int {
 
 
 class Champion: Equatable {
-    static func == (lhs: Champion, rhs: Champion) -> Bool {
-        return lhs.index == rhs.index
-    }
-    
     var name: String
     var life: Int
     var weapon: Weapon
@@ -34,6 +30,11 @@ class Champion: Equatable {
         self.weapon = weapon
         self.index = index
         self.maxLife = maxLife
+    }
+    
+    // Equatable protocol
+    static func == (lhs: Champion, rhs: Champion) -> Bool {
+        return lhs.index == rhs.index
     }
     
     // Copy the original champion (to place it in the team table of the current player)

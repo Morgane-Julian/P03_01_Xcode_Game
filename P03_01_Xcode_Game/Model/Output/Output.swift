@@ -35,14 +35,11 @@ class Output {
     }
     
     
-    static func tablePrint() {
+    // Print the list of champions available (for champion select or game..)
+    static func printChampionList(champions: [Champion]) {
         print("*************************************************************************************************************************")
         print("N°------------Name-----------------------Role-----------------Life Points------------------Weapon-----------------Damage")
         print("*************************************************************************************************************************")
-    }
-    
-    // Print the list of champions available (for champion select or game..)
-    static func printChampionList(champions: [Champion]) {
         for champion in champions {
             print("\(champion.index).         \(champion.name)                       \(champion.category)                 \(champion.life)/\(champion.maxLife)HP                  \(champion.weapon.weaponName)                  \(champion.weapon.weaponDamage) dmg\n")
         }
